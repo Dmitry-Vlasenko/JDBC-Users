@@ -1,0 +1,155 @@
+@startuml
+class com.dvlasenko.utils.Constants {
++ {static} String WRONG_EMAIL_MSG
++ {static} String WRONG_ID_MSG
++ {static} String DATA_ABSENT_MSG
++ {static} String DATA_INSERT_MSG
++ {static} String DATA_UPDATE_MSG
++ {static} String DATA_DELETE_MSG
++ {static} String APP_CLOSE_MSG
++ {static} String INPUT_REQ_MSG
++ {static} String INCORRECT_VALUE_MSG
++ {static} String INCORRECT_OPTION_MSG
+}
+
+class com.dvlasenko.database.DBConn {
++ {static} Connection connect()
+}
+
+class com.dvlasenko.utils.ContactValidator {
++ Map<String,String> validateContactData(Map<String,String>)
+}
+
+class com.dvlasenko.controller.ContactController {
+~ ContactService service
++ void create()
++ void read()
++ void update()
++ void delete()
++ void readById()
+}
+
+
+class com.dvlasenko.service.AppService {
+~ ContactController controller
++ void handleOption(int)
+}
+
+
+class com.dvlasenko.entity.Contact {
+- Long id
+- String firstName
+- String lastName
+- String email
++ Long getId()
++ void setId(Long)
++ String getFirstName()
++ void setFirstName(String)
++ String getLastName()
++ void setLastName(String)
++ String getEmail()
++ void setEmail(String)
++ String toString()
+}
+
+
+class com.dvlasenko.entity.ContactMapper {
++ Contact mapData(Map<String,String>)
+}
+
+class com.dvlasenko.App {
++ {static} void main(String[])
+}
+
+class com.dvlasenko.exceptions.OptionException {
+}
+class com.dvlasenko.utils.AppValidator {
++ {static} String ID_RGX
++ {static} String EMAIL_RGX
++ {static} boolean isIdValid(String)
++ {static} boolean isEmailValid(String)
+}
+
+
+class com.dvlasenko.view.ContactCreateView {
++ Map<String,String> getData()
++ void getOutput(String)
+}
+
+class com.dvlasenko.view.ContactDeleteView {
++ Map<String,String> getData()
++ void getOutput(String)
+}
+
+class com.dvlasenko.utils.AppStarter {
++ {static} void startApp()
+}
+
+class com.dvlasenko.view.AppView {
++ int getOption()
+- void getMenu()
++ void getOutput(String)
+}
+
+class com.dvlasenko.service.ContactService {
+~ ContactRepository repository
++ String create(Map<String,String>)
++ String read()
++ String update(Map<String,String>)
++ String delete(Map<String,String>)
++ String readById(Map<String,String>)
+}
+
+
+class com.dvlasenko.view.ContactUpdateView {
++ Map<String,String> getData()
++ void getOutput(String)
+}
+
+interface com.dvlasenko.repository.AppRepository {
+~ String create(T)
+~ Optional<List<T>> read()
+~ String update(T)
+~ String delete(Long)
+~ Optional<T> readById(Long)
+}
+
+class com.dvlasenko.view.ContactReadByIdView {
++ Map<String,String> getData()
++ void getOutput(String)
+}
+
+class com.dvlasenko.controller.AppController {
+~ AppView view
+~ AppService service
++ void runApp()
+}
+
+
+class com.dvlasenko.exceptions.ContactException {
+~ Map<String,String> errors
++ String getErrors(Map<String,String>)
+}
+
+
+class com.dvlasenko.view.ContactReadView {
++ void getOutput(String)
+}
+
+class com.dvlasenko.repository.impl.ContactRepository {
+- {static} String TABLE_CONTACTS
++ String create(Contact)
++ Optional<List<Contact>> read()
++ String update(Contact)
++ String delete(Long)
++ Optional<Contact> readById(Long)
+- boolean isIdExists(Long)
+}
+
+
+
+
+com.dvlasenko.exceptions.Exception <|-- com.dvlasenko.exceptions.OptionException
+com.dvlasenko.exceptions.RuntimeException <|-- com.dvlasenko.exceptions.ContactException
+com.dvlasenko.repository.AppRepository <|.. com.dvlasenko.repository.impl.ContactRepository
+@enduml
